@@ -27,6 +27,9 @@ function swap(&$a, &$b): void
     echo "После swap: a = $a, b = $b<br>";
     echo "5 === \$b: " . (5 === $b ? 'true' : 'false') . "<br>";
     echo "8 === \$a: " . (8 === $a ? 'true' : 'false') . "<br><br>";
+
+    echo var_dump(5 === $b) . "<br>";
+	echo var_dump(8 === $a);
     ?> 
 </body>
 </html>
