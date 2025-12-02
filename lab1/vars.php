@@ -1,5 +1,5 @@
 <?php
-$name = 'Мария';
+$name = 'Просто Мария';
 $age = 20;
 ?>
 <!DOCTYPE html>
