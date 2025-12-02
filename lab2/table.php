@@ -32,7 +32,7 @@ $rows = 10;
 		}
 
 		th {
-			background-color: yellow;
+			background-color: greenyellow;
 		}
 	</style>
 </head>
