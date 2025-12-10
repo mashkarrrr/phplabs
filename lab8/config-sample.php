@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
-const DB_HOST = 'localhost';
-const DB_USER = 'login_user';
-const DB_PASSWORD = 'your_password';
-const DB_NAME = 'login_db';
-const DB_CHARSET = 'utf8mb4';
-?>
+define('DB_NAME', 'your_database_name');
+define('DB_USER', 'your_username');
+define('DB_PASSWORD', 'your_password');
+define('DB_HOST', 'localhost');
+define('DB_CHARSET', 'utf8mb4');
