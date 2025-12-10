@@ -19,11 +19,11 @@ $color = ($color) ? $color : $default_color;
 <form action='<?=$_SERVER['REQUEST_URI']?>' method='POST'>
     <label>Количество колонок: </label>
     <br>
-    <input name='cols' type='text' value='<?=isset($_POST['cols']) ? htmlspecialchars($_POST['cols']) : $default_cols?>'>
+    <input name='cols' type='number' value='<?=isset($_POST['cols']) ? htmlspecialchars($_POST['cols']) : $default_cols?>' required>
     <br>
     <label>Количество строк: </label>
     <br>
-    <input name='rows' type='text' value='<?=isset($_POST['rows']) ? htmlspecialchars($_POST['rows']) : $default_rows?>'>
+    <input name='rows' type='number' value='<?=isset($_POST['rows']) ? htmlspecialchars($_POST['rows']) : $default_rows?>' required>
     <br>
     <label>Цвет: </label>
   <br>
