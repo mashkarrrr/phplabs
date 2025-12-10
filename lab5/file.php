@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($subject) || empty($body)) {
         $message = "<p>Пожалуйста, заполните все поля.</p>";
     } else {
-        $to = "ksyusankova@yandex.ru";
+        $to = "mariy.ger2005@gmail.com";
         $headers = 'From: admin@center.ogu' . "\r\n" .
                    'Reply-To: admin@center.ogu' . "\r\n" .
                    'X-Mailer: PHP/' . phpversion();
