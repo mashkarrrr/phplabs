@@ -21,7 +21,7 @@ $color = ($color) ? $color : '#ffff00';
   <br>
   <label>Цвет: </label>
   <br>
-  <input name='color' type='color' value='<?= isset($_POST['color']) ? $_POST['color'] : '#ff0000' ?>' list="listColors">
+  <input name='color' type='color' value='<?= isset($_POST['color']) ? $_POST['color'] : '#00ff00' ?>' list="listColors">
   <datalist id="listColors">
     <option>#ff0000</option>
     <option>#00ff00</option>
