@@ -1,86 +1,90 @@
-<?php declare(strict_types=1); ?>
-
 <?php
-/**
- * Возвращает приветствие по текущему часу.
- *
- * @param int $hour Час в диапазоне 0..23.
- * @return string Приветственная фраза.
- */
-function getWelcomeByHour(int $hour): string
-{
+    /*
+    ЗАДАНИЕ 1
+    - Присвойте переменной $now значение метки времени актуальной даты(сегодня)
+    - Присвойте переменной $birthday значение метки времени Вашего дня рождения
+    - Создайте переменную $hour
+    - С помощью функции getdate() присвойте переменной $hour текущий час
+    */
+    
+    $now = time(); 
+    $birthday = mktime(13, 00, 00, 04, 14, 2005); 
+    $hour = getdate()['hours']; 
+    
+    /*
+    ЗАДАНИЕ 2
+    - Используя управляющую конструкцию if – elseif - else присвойте 
+      переменной $welcome значение, изходя из следующих условий
+      если число в переменной $hour попадает в диапазон:
+      * от 0 до 6 - 'Доброй ночи'
+      * от 6 (включительно) до 12 - 'Доброе утро'
+      * от 12 (включительно) до 18 - 'Добрый день'
+      * от 18 (включительно) до 23 - 'Добрый вечер'
+      * Если число в переменной $hour не попадает ни в один из вышеперечисленных
+        диапазонов, то присвойте переменной $welcome значение 'Доброй ночи'
+    - Выведите $welcome на отдельной строке
+    - Установите локаль ru_RU.UTF-8
+    - С помощью функции datefmt_format() на отдельной строке выведите 
+      текущую дату, месяц, год, день недели и время,
+      например, "Сегодня 1 сентября 2018 года, суббота 09:30:00" 
+    - На отдельной строке выведите фразу "До моего дня рождения осталось "
+    - Выведите количество дней, часов, минут и секунд оставшееся до Вашего дня рождения
+    */
+    
+    // Определение приветствия по времени суток
     if ($hour >= 0 && $hour < 6) {
-        return 'Доброй ночи';
+        $welcome = 'Доброй ночи';
     } elseif ($hour >= 6 && $hour < 12) {
-        return 'Доброе утро';
+        $welcome = 'Доброе утро';
     } elseif ($hour >= 12 && $hour < 18) {
-        return 'Добрый день';
+        $welcome = 'Добрый день';
     } elseif ($hour >= 18 && $hour <= 23) {
-        return 'Добрый вечер';
+        $welcome = 'Добрый вечер';
+    } else {
+        $welcome = 'Доброй ночи';
     }
-    return 'Доброй ночи';
-}
-
-/**
- * Строит объект IntlDateFormatter для русской локали.
- *
- * @return IntlDateFormatter Форматтер для полной даты и времени.
- */
-function buildRuFormatter(): IntlDateFormatter
-{
-    return datefmt_create(
-        'ru_RU',
+?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Использование функций даты и времени</title>
+</head>
+<body>
+    <h1>Использование функций даты и времени</h1>
+    
+    <?php
+    echo "<p>$welcome</p>";
+    
+    // Установка локали и форматирование даты
+    locale_set_default('ru_RU.UTF-8');
+    $fmt = datefmt_create(
+        'ru_RU.UTF-8',
         IntlDateFormatter::FULL,
         IntlDateFormatter::FULL,
-        date_default_timezone_get(),
-        IntlDateFormatter::GREGORIAN
+        'Europe/Moscow',
+        IntlDateFormatter::GREGORIAN,
+        "'Сегодня' d MMMM Y 'года', eeee HH:mm:ss"
     );
-}
-
-/**
- * Вычисляет интервал до следующего дня рождения.
- *
- * @param DateTimeImmutable $birthdayДата День рождения (дата без учета времени).
- * @param DateTimeImmutable $now Текущий момент.
- * @return DateInterval Положительный интервал до следующего ДР.
- */
-function diffToNextBirthday(DateTimeImmutable $birthdayДата, DateTimeImmutable $now): DateInterval
-{
-    // День рождения в этом году
-    $currentYear = (int) $now->format('Y');
-    $next = $birthdayДата->setDate($currentYear, (int)$birthdayДата->format('m'), (int)$birthdayДата->format('d'));
-
-    if ($next < $now) {
-        $next = $next->modify('+1 year');
+    echo "<p>" . datefmt_format($fmt, $now) . "</p>";
+    
+    // Расчет времени до дня рождения
+    $diff = $birthday - $now;
+    if ($diff > 0) {
+        $days = floor($diff / (60 * 60 * 24));
+        $hours = floor(($diff % (60 * 60 * 24)) / (60 * 60));
+        $minutes = floor(($diff % (60 * 60)) / 60);
+        $seconds = $diff % 60;
+        
+        echo "<p>До моего дня рождения осталось</p>";
+        echo "<p>$days дней, $hours часов, $minutes минут, $seconds секунд</p>";
+    } elseif ($diff == 0) {
+        echo "<p>С Днем Рождения!</p>";
+    } else {
+        echo "<p>День рождения уже прошел</p>";
     }
-
-    return $now->diff($next);
-}
-
-// ЗАДАНИЕ 1
-$nowTs = time();
-$birthdayTs = strtotime('2005-04-14');
-$hour = getdate($nowTs)['hours'];
-
-// ЗАДАНИЕ 2
-$welcome = getWelcomeByHour($hour);
-echo "<p>{$welcome}</p>";
-
-setlocale(LC_ALL, 'ru_RU.UTF-8');
-
-// Форматированная дата/время
-$fmt = buildRuFormatter();
-$formatted = datefmt_format($fmt, $nowTs);
-echo "<p>Сегодня {$formatted}</p>";
-
-// До дня рождения осталось ...
-$now = new DateTimeImmutable('now');
-$birthdayDate = (new DateTimeImmutable('@' . $birthdayTs))->setTimezone($now->getTimezone());
-
-$diff = diffToNextBirthday($birthdayDate, $now);
-$days = $diff->days;
-$hours = $diff->h;
-$minutes = $diff->i;
-$seconds = $diff->s;
-
-echo "<p>До моего дня рождения осталось {$days} дн., {$hours} ч., {$minutes} мин., {$seconds} сек.</p>";
+    ?>
+</body>
+</html>
